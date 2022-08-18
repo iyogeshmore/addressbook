@@ -24,7 +24,7 @@
           v-model="address" 
           :rules="[
             () => !!address || 'This field is required',
-            () => !!address && address.length <= 25 || 'Address must be less than 25 characters',
+            () => !!address && address.length <= 45 || 'Address must be less than 45 characters',
             addressCheck
           ]" 
           label="Address Line" 
@@ -58,11 +58,9 @@
         </v-card-text>
         <v-divider class="mt-12"></v-divider>
         <v-card-actions>
-          <router-link to="/home"> 
-            <v-btn text>
+          <v-btn text>
             Cancel
-          </v-btn></router-link>
-
+          </v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
             <v-tooltip v-if="formHasErrors" left>
@@ -75,7 +73,7 @@
             </v-tooltip>
           </v-slide-x-reverse-transition>
           <v-btn color="primary" text @click="submit">
-            Submit
+            Update
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -86,10 +84,8 @@
 <script>
 import AddressBookService from '@/Service/AddressBookService'
 export default {
-  name: 'HelloWorld',
+  name: 'EditForm',
   data: () => ({
-    
-
     States: ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'],
 
     cities: ['Amaravati', 'Tirupati', 'Itanagar', 'Dispur', 'Guwahati', 'Patna', 'Chandigarh', 'Raipur', 'Silvassa', 'New Delhi', 'Panaji', 'Ahmadabad', 'Surat', 'Faridabad', 'Shimla', 'Jammu', 'Ranchi', 'Kochi', 'Indore', 'Ujjain', 'Kalyan', 'Kolhapur', 'Mumbai', 'Nagpur', 'Pune', 'Satara', 'Amritsar', 'Jalandhar', 'Jaipur', 'Kota', 'Hyderabad', 'Agra', 'Ghaziabad', 'Kolkata', 'Varanasi'],
@@ -140,19 +136,44 @@ export default {
       })
     },
     submit() {
-            const data = this.form;
-            AddressBookService.addAddressBook(data)
+      
+        const data = this.form;
+            AddressBookService.updateAddressBook(this.id, this.form)
                 .then((response) => {
-                    console.log(response);
                     console.log(response.data.data);
                     this.employees = response.data.data;
-                    alert("Contact Added Successfully!!", response);
+                    alert("Contact Update Successfully!!", response);
+                    this.$router.push({ name: "home" });
                 })
                 .catch((error) => {
                     console.log(error);
-                    alert("WARNING!! Error while adding the Contact!");
+                    alert("WARNING!! Error while edting the data!");
                 });
+        },
+    getAddressBookById(id) {
+            AddressBookService.getAddressBookById(id)
+                .then((response) => {
+                    let object = response.data.data;
+                    this.setData(object);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        setData(obj) {
+            console.log(obj);
+            this.id = obj.id;
+            this.fullName = obj.fullName;
+            this.address = obj.address;
+            this.city = obj.city;
+            this.state = obj.state;
+            this.zipCode = obj.zipCode;
+            this.phoneNo = obj.phoneNo;
+            console.log(this.form);
+        },
     },
+    created() {
+        this.getAddressBookById(this.$route.params.id);
   },
 }
 </script>
