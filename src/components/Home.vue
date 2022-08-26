@@ -1,19 +1,17 @@
 <template>
-
   <v-simple-table class="mt-10">
-
     <template v-slot:default>
-
       <thead>
         &nbsp &nbsp
-        <router-link to="/">
-          <v-btn  elevation="2" outlined>Add Contact</v-btn>
+        <router-link to="/addcontact">
+          <v-btn elevation="6" outlined>Add Contact</v-btn>
+        </router-link>&nbsp &nbsp
+        <v-btn @click="sortAddressBookByCity(addressBook)" elevation="6" outlined>Sort by city</v-btn>
+        &nbsp &nbsp
+        <v-btn @click="sortAddressBookByState(addressBook)" elevation="6" outlined>Sort by State</v-btn> &nbsp &nbsp
+        <router-link to="./">
+          <v-btn elevation="6" outlined>Logout</v-btn>
         </router-link>
-        &nbsp &nbsp
-        
-        <v-btn @click="sortAddressBookByCity(addressBook)"  elevation="2" outlined>Sort by city</v-btn>
-        &nbsp &nbsp
-        <v-btn @click="sortAddressBookByState(addressBook)" elevation="2" outlined>Sort by State</v-btn>
         <tr>
           <th class="text-left">
             Name
@@ -30,7 +28,6 @@
           <th class="text-left">
             state
           </th>
-
           <th class="text-left">
             Zip
           </th>
@@ -48,13 +45,14 @@
           <td>{{ addressBook.state }}</td>
           <td>{{ addressBook.zipCode }}</td>
           <td>
-            <img @click="remove(addressBook.id)" src="../assets/delete.svg" alt="delete" />
+            <img @click="remove(addressBook.id)" src="../assets/delete.svg" alt="delete" /> &nbsp
             <img @click="update(addressBook.id)" src="../assets/edit.svg" alt="edit" />
           </td>
         </tr>
       </tbody>
     </template>
   </v-simple-table>
+
 </template>
 
 <script>
@@ -68,13 +66,13 @@ export default {
     };
   },
   methods: {
-    sortAddressBookByCity(){
+    sortAddressBookByCity() {
       AddressBookService.sortAddressBookByCity().then((response) => {
         console.log(response.data.data);
         this.addressBookData = response.data.data;
       });
     },
-     sortAddressBookByState(){
+    sortAddressBookByState() {
       AddressBookService.sortAddressBookByState().then((response) => {
         console.log(response.data.data);
         this.addressBookData = response.data.data;
@@ -87,9 +85,11 @@ export default {
         this.addressBookData = response.data.data;
       });
     },
+
     update(id) {
       this.$router.push({ name: "EditForm", params: { id: id } });
     },
+
     remove(id) {
       var answer = window.confirm(
         "Press ok to delete data..."
@@ -97,7 +97,7 @@ export default {
       if (answer === true) {
         AddressBookService.deleteAddressBook(id)
           .then((data) => {
-            alert("Employee deleted Successfully!!");
+            alert("Contact deleted Successfully!!");
             location.reload();
             this.getAllAddressBookData();
           })
@@ -105,9 +105,10 @@ export default {
             alert("Something Went Wrong!");
           });
       } else {
-        alert("Employee Not Deleted!!!");
+        alert("Contact Not Deleted!!!");
       }
     },
+
     displayMessage() {
       console.log("Welcome to Bridgelabz");
     },

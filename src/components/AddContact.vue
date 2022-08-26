@@ -86,14 +86,11 @@
 <script>
 import AddressBookService from '@/Service/AddressBookService'
 export default {
-  name: 'HelloWorld',
+  name: 'AddContact',
   data: () => ({
     
-
     States: ['Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jammu and Kashmir', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal'],
-
     cities: ['Amaravati', 'Tirupati', 'Itanagar', 'Dispur', 'Guwahati', 'Patna', 'Chandigarh', 'Raipur', 'Silvassa', 'New Delhi', 'Panaji', 'Ahmadabad', 'Surat', 'Faridabad', 'Shimla', 'Jammu', 'Ranchi', 'Kochi', 'Indore', 'Ujjain', 'Kalyan', 'Kolhapur', 'Mumbai', 'Nagpur', 'Pune', 'Satara', 'Amritsar', 'Jalandhar', 'Jaipur', 'Kota', 'Hyderabad', 'Agra', 'Ghaziabad', 'Kolkata', 'Varanasi'],
-
     errorMessages: '',
     fullName: null,
     address: null,
@@ -103,7 +100,6 @@ export default {
     phoneNo: null,
     formHasErrors: false,
   }),
-
   computed: {
     form() {
       return {
@@ -116,25 +112,21 @@ export default {
       }
     },
   },
-
   watch: {
     fullName() {
       this.errorMessages = ''
     },
   },
-
   methods: {
     addressCheck() {
       this.errorMessages = this.address && !this.fullName
         ? `Hey! I'm required`
         : ''
-
       return true
     },
     resetForm() {
       this.errorMessages = []
       this.formHasErrors = false
-
       Object.keys(this.form).forEach(f => {
         this.$refs[f].reset()
       })

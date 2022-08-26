@@ -1,38 +1,50 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import Home from '../components/Home.vue'
-import EditForm from '../components/EditForm.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomeView from "../views/HomeView.vue";
+import Home from "../components/Home.vue";
+import EditForm from "../components/EditForm.vue";
+import SignUp from "../components/SignUp.vue";
+import Login from "../components/Login.vue";  
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/addcontact",
+    name: "home",
+    component: HomeView,
   },
   {
-    path: '/home',
-    name: 'Home',
-    component: Home
+    path: "/home",
+    name: "Home",
+    component: Home,
   },
   {
-    path: '/editaddressbook/:id?',
-    name: 'EditForm',
-    component: EditForm
-},
+    path: "/editaddressbook/:id?",
+    name: "EditForm",
+    component: EditForm,
+  },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
-  }
-]
+    path: "/about",
+    name: "about",
+    component: () => import("../views/AboutView.vue"),
+  },
+  {
+    path: "/Signup",
+    name: "SignUp",
+    component: SignUp,
+  },
+  {
+    path: "/",
+    name: "Login",
+    component: Login,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

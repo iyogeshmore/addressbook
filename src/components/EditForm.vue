@@ -3,62 +3,37 @@
     <v-col cols="12" sm="10">
       <v-card class="mt-10" ref="form">
         <v-card-text>
-          <v-text-field 
-          outlined ref="fullName" 
-          v-model="fullName" 
-          :rules="[() => !!fullName || 'This field is required']"
-            :error-messages="errorMessages" 
-            label="Full Name" 
+          <v-text-field outlined ref="fullName" v-model="fullName"
+            :rules="[() => !!fullName || 'This field is required']" :error-messages="errorMessages" label="Full Name"
             placeholder="John Doe" required>
-            </v-text-field>
-          <v-text-field 
-          outlined ref="phoneNo" 
-          v-model="phoneNo"
-            :rules="[() => !!phoneNo || 'This field is required']" 
-            :error-messages="errorMessages"
-            label="Phone Number" 
-            placeholder="e.g. 91 1234567890" required>
-            </v-text-field>
-          <v-textarea
-          outlined ref="address" 
-          v-model="address" 
-          :rules="[
+          </v-text-field>
+          <v-text-field outlined ref="phoneNo" v-model="phoneNo" :rules="[() => !!phoneNo || 'This field is required']"
+            :error-messages="errorMessages" label="Phone Number" placeholder="e.g. 91 1234567890" required>
+          </v-text-field>
+          <v-textarea outlined ref="address" v-model="address" :rules="[
             () => !!address || 'This field is required',
             () => !!address && address.length <= 45 || 'Address must be less than 45 characters',
             addressCheck
-          ]" 
-          label="Address Line" 
-          placeholder="Enter Address Here" counter="45" required>
+          ]" label="Address Line" placeholder="Enter Address Here" counter="45" required>
           </v-textarea>
           <v-row>
-            <v-autocomplete class="ml-3 mr-1 " 
-            outlined ref="city" 
-            v-model="city"
-              :rules="[() => !!city || 'This field is required']" 
-              :items="cities" label="City" placeholder="Select..."
+            <v-autocomplete class="ml-3 mr-1 " outlined ref="city" v-model="city"
+              :rules="[() => !!city || 'This field is required']" :items="cities" label="City" placeholder="Select..."
               required>
-              </v-autocomplete>
-            <v-autocomplete class="ml-2" 
-            outlined ref="state" 
-            v-model="state"
-              :rules="[() => !!state || 'This field is required']" 
-              :items="States" 
-              label="State" 
-              placeholder="Select..."
+            </v-autocomplete>
+            <v-autocomplete class="ml-2" outlined ref="state" v-model="state"
+              :rules="[() => !!state || 'This field is required']" :items="States" label="State" placeholder="Select..."
               required>
-              </v-autocomplete>
-            <v-text-field class="ml-2  mr-3" 
-            outlined ref="zipCode" 
-            v-model="zipCode"
-              :rules="[() => !!zipCode || 'This field is required']" 
-              label="ZIP / Postal Code" required 
+            </v-autocomplete>
+            <v-text-field class="ml-2  mr-3" outlined ref="zipCode" v-model="zipCode"
+              :rules="[() => !!zipCode || 'This field is required']" label="ZIP / Postal Code" required
               placeholder="79938">
             </v-text-field>
           </v-row>
         </v-card-text>
         <v-divider class="mt-12"></v-divider>
         <v-card-actions>
-          <v-btn text>
+          <v-btn color="primary" text elevation="6">
             Cancel
           </v-btn>
           <v-spacer></v-spacer>
@@ -72,7 +47,7 @@
               <span>Refresh form</span>
             </v-tooltip>
           </v-slide-x-reverse-transition>
-          <v-btn color="primary" text @click="submit">
+          <v-btn color="primary" text elevation="6" @click="submit">
             Update
           </v-btn>
         </v-card-actions>
@@ -136,44 +111,44 @@ export default {
       })
     },
     submit() {
-      
-        const data = this.form;
-            AddressBookService.updateAddressBook(this.id, this.form)
-                .then((response) => {
-                    console.log(response.data.data);
-                    this.employees = response.data.data;
-                    alert("Contact Update Successfully!!", response);
-                    this.$router.push({ name: "home" });
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert("WARNING!! Error while edting the data!");
-                });
-        },
-    getAddressBookById(id) {
-            AddressBookService.getAddressBookById(id)
-                .then((response) => {
-                    let object = response.data.data;
-                    this.setData(object);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
-        setData(obj) {
-            console.log(obj);
-            this.id = obj.id;
-            this.fullName = obj.fullName;
-            this.address = obj.address;
-            this.city = obj.city;
-            this.state = obj.state;
-            this.zipCode = obj.zipCode;
-            this.phoneNo = obj.phoneNo;
-            console.log(this.form);
-        },
+
+      const data = this.form;
+      AddressBookService.updateAddressBook(this.id, this.form)
+        .then((response) => {
+          console.log(response.data.data);
+          this.employees = response.data.data;
+          alert("Employee Update Successfully!!", response);
+          this.$router.push({ name: "Home" });
+        })
+        .catch((error) => {
+          console.log(error);
+          alert("WARNING!! Error while edting the data!");
+        });
     },
-    created() {
-        this.getAddressBookById(this.$route.params.id);
+    getAddressBookById(id) {
+      AddressBookService.getAddressBookById(id)
+        .then((response) => {
+          let object = response.data.data;
+          this.setData(object);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    setData(obj) {
+      console.log(obj);
+      this.id = obj.id;
+      this.fullName = obj.fullName;
+      this.address = obj.address;
+      this.city = obj.city;
+      this.state = obj.state;
+      this.zipCode = obj.zipCode;
+      this.phoneNo = obj.phoneNo;
+      console.log(this.form);
+    },
   },
-}
+  created() {
+    this.getAddressBookById(this.$route.params.id);
+  },
+} 
 </script>
